@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "devicebox"
+version = "1.0.0"
+description = "Manage device alias-to-hostname mappings from the CLI or within your own scripts."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+    "confbox",
+]
+
+[[project.authors]]
+name = "Jeff Mirabile"
+email = "jmmirabile@gmail.com"
+
+[project.urls]
+Homepage = "https://github.com/jmmirabile/devicebox"
+Repository = "https://github.com/jmmirabile/devicebox"
+
+[project.scripts]
+devicebox = "devicebox.main:main"
