@@ -1,6 +1,37 @@
 # devicebox
 
-A Python utility for managing device alias-to-hostname mappings. Register short aliases for your devices and look them up by real hostname — from the command line or from within your own scripts.
+A Python utility for managing device alias-to-hostname mappings. Register short aliases for your devices and look them 
+up by real hostname — from the command line or from within your own scripts.
+
+The core value of this is the shared registry and mnemonic/alias for device names. Instead of typing the full hostname, 
+you type an alias or shortname you defined. Any script that uses devicebox will recognize that name. 
+
+This also decouples device names from scripts. Without devicebox, scripts may require the fqdn as an argument or hardcode 
+the hostname. 
+
+If the user uses environment names in the shortname/alias, then grep can be used to find all entries for a specific 
+environment, for example:
+
+```bash
+devicebox list | grep ^prd
+```
+So, if you add:
+
+```bash
+devicebox add -s proddmzfw01 -a plocfwdmz01.int.domain.com
+```
+Then, if you don't remember the shortname, use grep:
+```bash
+devicebox list | grep ^prod
+```
+And you'll find all the entries that start with "prod".
+
+For a script that takes a device name as an argument. You can modify it to use devicebox, then you might type:
+```bash
+checkuptime -d proddmzfw01 uptime
+```
+Of course, this would be an example of a script that uses either ssh or the platform API to get the uptime. 
+
 
 ## Installation
 
@@ -128,6 +159,18 @@ devicebox delete -s foobar
 | Flag | Description |
 |------|-------------|
 | `-s`, `--shortname` | Alias to remove (required) |
+
+---
+
+## Quick Testing
+
+A quick way to verify a devicebox entry is correct is to use shell command substitution directly on the command line:
+
+```bash
+ping `devicebox get -s mysite`
+```
+
+This resolves the alias on the fly and passes the real address to the command, without having to look it up separately first.
 
 ---
 
